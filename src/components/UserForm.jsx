@@ -33,7 +33,7 @@ const UserForm = ({ fields, initialData = {}, onSubmit, loading = false }) => {
     setFormData(initialValues);
   }, [fields, initialData]);
 
-  const handleChange = (e) => {
+const handleChange = (e) => {
     const { name, value } = e.target;
 
     setFormData((prev) => ({
