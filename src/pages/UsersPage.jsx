@@ -7,6 +7,7 @@ import {
   DialogActions,
   CircularProgress,
   Typography,
+  Box,
 } from "@mui/material";
 
 import {
@@ -25,27 +26,32 @@ const UsersPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
   const [saving, setSaving] = useState(false);
-const [error, setError] = useState("");
-
+  const [error, setError] = useState("");
 
   useEffect(() => {
     fetchUsers();
   }, []);
 
   const fetchUsers = async () => {
-     try {
-       setError("");
-       setLoading(true);
+    try {
+      setError("");
+      setLoading(true);
 
-       const data = await getUsers();
-       setUsers(data);
-     } catch (err) {
-       setError(err.message || "Something went wrong");
-     } finally {
-       setLoading(false);
-     }
+      const data = await getUsers();
+
+      const normalized = data.map((user) => ({
+        ...user,
+        firstName: user.name?.split(" ")[0] ?? "",
+        lastName: user.name?.split(" ").slice(1).join(" ") ?? "",
+      }));
+
+      setUsers(normalized);
+    } catch (err) {
+      setError(err.message || "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
   };
-
   const handleOpenCreate = () => {
     setEditingUser(null);
     setModalOpen(true);
@@ -86,66 +92,65 @@ const [error, setError] = useState("");
       setSaving(false);
     }
   };
-return (
-  <>
-    <Typography variant="h4" gutterBottom>
-      User Management
-    </Typography>
-
-    <Button variant="contained" onClick={handleOpenCreate}>
-      Add User
-    </Button>
-
-    {/* ✅ Error Alert */}
-    {error && (
-      <Alert severity="error" sx={{ mt: 2 }}>
-        {error}
-      </Alert>
-    )}
-
-    {/* ✅ Loading State */}
-    {loading && (
-      <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
-        <CircularProgress />
-      </Box>
-    )}
-
-    {/* ✅ Empty State */}
-    {!loading && users.length === 0 && (
-      <Typography sx={{ mt: 3 }} color="text.secondary">
-        No users found.
+  return (
+    <>
+      <Typography variant="h4" gutterBottom>
+        User Management
       </Typography>
-    )}
 
-    {/* ✅ Table */}
-    {!loading && users.length > 0 && (
-      <UserTable
-        users={users}
-        onEdit={handleOpenEdit}
-        onDelete={handleDelete}
-      />
-    )}
+      <Button variant="contained" onClick={handleOpenCreate}>
+        Add User
+      </Button>
 
-    {/* ✅ Modal */}
-    <Dialog open={modalOpen} onClose={handleClose} fullWidth maxWidth="sm">
-      <DialogTitle>{editingUser ? "Edit User" : "Add User"}</DialogTitle>
+      {/* ✅ Error Alert */}
+      {error && (
+        <Alert severity="error" sx={{ mt: 2 }}>
+          {error}
+        </Alert>
+      )}
 
-      <DialogContent>
-        <UserForm
-          fields={userFields}
-          initialData={editingUser || {}}
-          onSubmit={handleSubmit}
-          loading={saving}
+      {/* ✅ Loading State */}
+      {loading && (
+        <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
+          <CircularProgress />
+        </Box>
+      )}
+
+      {/* ✅ Empty State */}
+      {!loading && users.length === 0 && (
+        <Typography sx={{ mt: 3 }} color="text.secondary">
+          No users found.
+        </Typography>
+      )}
+
+      {/* ✅ Table */}
+      {!loading && users.length > 0 && (
+        <UserTable
+          users={users}
+          onEdit={handleOpenEdit}
+          onDelete={handleDelete}
         />
-      </DialogContent>
+      )}
 
-      <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
-      </DialogActions>
-    </Dialog>
-  </>
-);
+      {/* ✅ Modal */}
+      <Dialog open={modalOpen} onClose={handleClose} fullWidth maxWidth="sm">
+        <DialogTitle>{editingUser ? "Edit User" : "Add User"}</DialogTitle>
 
+        <DialogContent>
+          <UserForm
+            fields={userFields}
+            initialData={editingUser || {}}
+            onSubmit={handleSubmit}
+            loading={saving}
+          />
+        </DialogContent>
+
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+        </DialogActions>
+      </Dialog>
+    </>
+  );
 };
 
 export default UsersPage;
