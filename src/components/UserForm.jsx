@@ -1,26 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { TextField, Button, Stack } from "@mui/material";
 
-/**
- * Props:
- * - fields: [{ name, label, type, required }]
- * - initialData: object (edit mode)
- * - onSubmit: function(formData)
- * - loading: boolean
- */
 
 const UserForm = ({ fields, initialData = {}, onSubmit, loading = false }) => {
-  const [formData, setFormData] = useState(() => {
-    const initial = {};
-    fields.forEach((field) => {
-      initial[field.name] = "";
-    });
-    return initial;
-  });
+  const [formData, setFormData] = useState({});
 
   const [errors, setErrors] = useState({});
 
-  // Initialize form data (for edit mode)
   useEffect(() => {
     if (!fields?.length) return;
 
@@ -33,7 +19,7 @@ const UserForm = ({ fields, initialData = {}, onSubmit, loading = false }) => {
     setFormData(initialValues);
   }, [fields, initialData]);
 
-const handleChange = (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
 
     setFormData((prev) => ({
@@ -80,28 +66,30 @@ const handleChange = (e) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Stack spacing={2} sx={{ mt: 1 }}>
-        {fields.map((field) => (
-          <TextField
-            key={field.name}
-            name={field.name}
-            label={field.label}
-            type={field.type}
-            value={formData[field.name] || ""}
-            onChange={handleChange}
-            required={field.required}
-            error={!!errors[field.name]}
-            helperText={errors[field.name] || ""}
-            fullWidth
-          />
-        ))}
+    <>
+      <form onSubmit={handleSubmit}>
+        <Stack spacing={2} sx={{ mt: 1 }}>
+          {fields.map((field) => (
+            <TextField
+              key={field.name}
+              name={field.name}
+              label={field.label}
+              type={field.type}
+              value={formData[field.name] ?? ""}
+              onChange={handleChange}
+              required={field.required}
+              error={!!errors[field.name]}
+              helperText={errors[field.name] || ""}
+              fullWidth
+            />
+          ))}
 
-        <Button type="submit" variant="contained" disabled={loading}>
-          {loading ? "Saving..." : "Submit"}
-        </Button>
-      </Stack>
-    </form>
+          <Button type="submit" variant="contained" disabled={loading}>
+            {loading ? "Saving..." : "Submit"}
+          </Button>
+        </Stack>
+      </form>
+    </>
   );
 };
 
