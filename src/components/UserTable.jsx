@@ -27,9 +27,7 @@ const UserTable = ({ users, onEdit, onDelete }) => {
           {users.map((user) => (
             <TableRow key={user.id}>
               <TableCell>
-                {user.firstName || user.lastName
-                  ? `${user.firstName ?? ""} ${user.lastName ?? ""}`.trim()
-                  : user.name}
+                {user.firstName} {user.lastName}
               </TableCell>
               <TableCell>{user.email}</TableCell>
               <TableCell>{user.phone}</TableCell>
@@ -41,7 +39,7 @@ const UserTable = ({ users, onEdit, onDelete }) => {
                   size="small"
                   color="error"
                   onClick={() => onDelete(user.id)}
-                >
+                >.
                   Delete
                 </Button>
               </TableCell>
