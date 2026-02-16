@@ -36,7 +36,7 @@ const UserTable = ({ users, onEdit, onDelete }) => {
               <TableCell align="right">
                 <Button size="small" onClick={() => onEdit(user)}>
                   Edit
-                </Button>.
+                </Button>
                 <Button
                   size="small"
                   color="error"

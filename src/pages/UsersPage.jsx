@@ -33,15 +33,17 @@ const [error, setError] = useState("");
   }, []);
 
   const fetchUsers = async () => {
-    try {
-      setLoading(true);
-      const data = await getUsers();
-      setUsers(data);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
+     try {
+       setError("");
+       setLoading(true);
+
+       const data = await getUsers();
+       setUsers(data);
+     } catch (err) {
+       setError(err.message || "Something went wrong");
+     } finally {
+       setLoading(false);
+     }
   };
 
   const handleOpenCreate = () => {
