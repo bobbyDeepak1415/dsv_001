@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { TextField, Button, Stack } from "@mui/material";
 
-
 const UserForm = ({ fields, initialData = {}, onSubmit, loading = false }) => {
   const [formData, setFormData] = useState({});
-
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
@@ -57,39 +55,7 @@ const UserForm = ({ fields, initialData = {}, onSubmit, loading = false }) => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => { {
-    users.map((user) => (
-      <TableRow key={user.id}>
-        <TableCell>{user.name}</TableCell>
-        <TableCell>{user.email}</TableCell>
-        <TableCell>{user.phone}</TableCell>
-        <TableCell align="right">
-          <Button size="small" onClick={() => onEdit(user)}>
-            Edit
-          </Button>
-          <Button size="small" color="error" onClick={() => onDelete(user.id)}>
-            Delete
-          </Button>
-        </TableCell>
-      </TableRow>
-    ));
-  } {
-    users.map((user) => (
-      <TableRow key={user.id}>
-        <TableCell>{user.name}</TableCell>
-        <TableCell>{user.email}</TableCell>
-        <TableCell>{user.phone}</TableCell>
-        <TableCell align="right">
-          <Button size="small" onClick={() => onEdit(user)}>
-            Edit
-          </Button>
-          <Button size="small" color="error" onClick={() => onDelete(user.id)}>
-            Delete
-          </Button>
-        </TableCell>
-      </TableRow>
-    ));
-  }
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     if (!validate()) return;
@@ -98,30 +64,28 @@ const UserForm = ({ fields, initialData = {}, onSubmit, loading = false }) => {
   };
 
   return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <Stack spacing={2} sx={{ mt: 1 }}>
-          {fields.map((field) => (
-            <TextField
-              key={field.name}
-              name={field.name}
-              label={field.label}
-              type={field.type}
-              value={formData[field.name] ?? ""}
-              onChange={handleChange}
-              required={field.required}
-              error={!!errors[field.name]}
-              helperText={errors[field.name] || ""}
-              fullWidth
-            />
-          ))}
+    <form onSubmit={handleSubmit}>
+      <Stack spacing={2} sx={{ mt: 1 }}>
+        {fields.map((field) => (
+          <TextField
+            key={field.name}
+            name={field.name}
+            label={field.label}
+            type={field.type}
+            value={formData[field.name] ?? ""}
+            onChange={handleChange}
+            required={field.required}
+            error={!!errors[field.name]}
+            helperText={errors[field.name] || ""}
+            fullWidth
+          />
+        ))}
 
-          <Button type="submit" variant="contained" disabled={loading}>
-            {loading ? "Saving..." : "Submit"}
-          </Button>
-        </Stack>
-      </form>
-    </>
+        <Button type="submit" variant="contained" disabled={loading}>
+          {loading ? "Saving..." : "Submit"}
+        </Button>
+      </Stack>
+    </form>
   );
 };
 
