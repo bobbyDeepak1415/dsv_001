@@ -57,7 +57,39 @@ const UserForm = ({ fields, initialData = {}, onSubmit, loading = false }) => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e) => { {
+    users.map((user) => (
+      <TableRow key={user.id}>
+        <TableCell>{user.name}</TableCell>
+        <TableCell>{user.email}</TableCell>
+        <TableCell>{user.phone}</TableCell>
+        <TableCell align="right">
+          <Button size="small" onClick={() => onEdit(user)}>
+            Edit
+          </Button>
+          <Button size="small" color="error" onClick={() => onDelete(user.id)}>
+            Delete
+          </Button>
+        </TableCell>
+      </TableRow>
+    ));
+  } {
+    users.map((user) => (
+      <TableRow key={user.id}>
+        <TableCell>{user.name}</TableCell>
+        <TableCell>{user.email}</TableCell>
+        <TableCell>{user.phone}</TableCell>
+        <TableCell align="right">
+          <Button size="small" onClick={() => onEdit(user)}>
+            Edit
+          </Button>
+          <Button size="small" color="error" onClick={() => onDelete(user.id)}>
+            Delete
+          </Button>
+        </TableCell>
+      </TableRow>
+    ));
+  }
     e.preventDefault();
 
     if (!validate()) return;
