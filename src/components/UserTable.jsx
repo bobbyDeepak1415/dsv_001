@@ -39,7 +39,7 @@ const UserTable = ({ users, onEdit, onDelete }) => {
                   size="small"
                   color="error"
                   onClick={() => onDelete(user.id)}
-                >.
+                >
                   Delete
                 </Button>
               </TableCell>
