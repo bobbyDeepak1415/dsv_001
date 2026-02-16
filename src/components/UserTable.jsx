@@ -26,13 +26,17 @@ const UserTable = ({ users, onEdit, onDelete }) => {
         <TableBody>
           {users.map((user) => (
             <TableRow key={user.id}>
-              <TableCell>{user.name}</TableCell>
+              <TableCell>
+                {user.firstName || user.lastName
+                  ? `${user.firstName ?? ""} ${user.lastName ?? ""}`.trim()
+                  : user.name}
+              </TableCell>
               <TableCell>{user.email}</TableCell>
               <TableCell>{user.phone}</TableCell>
               <TableCell align="right">
                 <Button size="small" onClick={() => onEdit(user)}>
                   Edit
-                </Button>
+                </Button>.
                 <Button
                   size="small"
                   color="error"
