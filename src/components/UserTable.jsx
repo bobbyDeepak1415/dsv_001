@@ -22,7 +22,7 @@ const UserTable = ({ users, onEdit, onDelete }) => {
             <TableCell align="right">Actions</TableCell>
           </TableRow>
         </TableHead>
-...
+
         <TableBody>
           {users.map((user) => (
             <TableRow key={user.id}>
